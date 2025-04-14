@@ -3,8 +3,9 @@ package kz.yandex.practicum.qa.sb.pom.auth;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import kz.yandex.practicum.qa.sb.pom.HeaderPom;
+import kz.yandex.practicum.qa.sb.pom.Layout;
 import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
@@ -12,9 +13,8 @@ import org.openqa.selenium.support.How;
 
 import java.time.Duration;
 
-@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RegisterPom {
+public class RegisterPom extends Layout {
 
     @FindBy(how = How.XPATH, using = "//*[@id=\"root\"]/div/main/div/h2")
     SelenideElement pageTitle;
@@ -30,6 +30,13 @@ public class RegisterPom {
 
     @FindBy(how = How.XPATH, using = "//*[@id=\"root\"]/div/main/div/form/button")
     SelenideElement registerButton;
+
+    @FindBy(how = How.XPATH, using = "//*[@id=\"root\"]/div/main/div/div/p/a")
+    SelenideElement entranceAnchor;
+
+    public RegisterPom() {
+        this.headerPom = Selenide.page(HeaderPom.class);
+    }
 
     public void setName(String name) {
         nameField.setValue(name);
@@ -66,6 +73,17 @@ public class RegisterPom {
         return loginPom;
     }
 
+    public LoginPom enter() {
+        entranceAnchor.click();
+
+        LoginPom loginPom = Selenide.page(LoginPom.class);
+
+        Selenide.Wait().withTimeout(Duration.ofSeconds(5))
+                .until(webDriver -> loginPom.isDisplayed());
+
+        return loginPom;
+    }
+
     public boolean isNameFieldDisplayed() {
         return Selenide.element(nameField).shouldBe(Condition.visible).isDisplayed();
     }
@@ -84,6 +102,14 @@ public class RegisterPom {
 
     public boolean isRegisterButtonClickable() {
         return Selenide.element(registerButton).shouldBe(Condition.enabled).isEnabled();
+    }
+
+    public boolean isEntranceAnchorDisplayed() {
+        return Selenide.element(entranceAnchor).shouldBe(Condition.visible).isDisplayed();
+    }
+
+    public boolean isEntranceAnchorClickable() {
+        return Selenide.element(entranceAnchor).shouldBe(Condition.enabled).isEnabled();
     }
 
     public boolean isDisplayed() {
