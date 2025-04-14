@@ -40,11 +40,24 @@
             <version>${allure.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.codeborne/selenide -->
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
-            <version>5.23.2</version>
-            <scope>test</scope>
+            <version>5.25.1</version>
+        </dependency>
+
+        <!-- для автоматического скачивания и управления нужной версии браузера. -->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>5.5.0</version>
+        </dependency>
+        <!-- без этой зависимости не работает автоскачивание нужной версии браузера -->
+        <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+            <version>5.2.1</version>
         </dependency>
     </dependencies>
 
