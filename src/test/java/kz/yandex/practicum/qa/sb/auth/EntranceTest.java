@@ -48,7 +48,7 @@ public class EntranceTest {
     public static Object[][] data() {
         return new Object[][] {
                 {BrowserType.CHROME, new ChromeOptions().addArguments("--incognito")},
-//                {"yandex", new ChromeOptions().addArguments("--incognito")}
+                {"yandex", new ChromeOptions().addArguments("--incognito")}
         };
     }
 

@@ -36,21 +36,6 @@ public class HeaderPom {
         return isConstructorAnchorDisplayed() && isPersonalAccountAnchorDisplayed();
     }
 
-    public <T extends Layout> T clickPersonalAccountAnchor() {
-
-        personalAccountAnchor.click();
-
-        // для не аутентифицированного пользователя откроется форма входа
-        LoginPom loginPom = Selenide.page(LoginPom.class);
-
-        Selenide.Wait().withTimeout(Duration.ofSeconds(5))
-                .until(webDriver -> loginPom.isDisplayed());
-
-        // для аутентифицированного пользователя откроется личный кабинет
-
-        return (T) loginPom;
-    }
-
     public <T extends Layout> T clickPersonalAccountAnchor(Class<T> clazz) {
 
         personalAccountAnchor.click();
