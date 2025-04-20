@@ -5,14 +5,12 @@ import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import kz.yandex.practicum.qa.sb.SelenideBrowserConfigurator;
 import kz.yandex.practicum.qa.sb.pom.AccountPom;
+import kz.yandex.practicum.qa.sb.pom.ConstructorPom;
 import kz.yandex.practicum.qa.sb.pom.HeaderPom;
 import kz.yandex.practicum.qa.sb.pom.HomePom;
 import kz.yandex.practicum.qa.sb.pom.auth.LoginPom;
 import kz.yandex.practicum.qa.sb.pom.auth.RegisterPom;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.MutableCapabilities;
@@ -23,24 +21,22 @@ import java.time.Duration;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static kz.yandex.practicum.qa.sb.FakerInstance.FAKER;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Задание 3: веб-приложение
- * Переход в личный кабинет
- * Проверь переход по клику на «Личный кабинет».
+ * Переход из личного кабинета в конструктор
+ * Проверь переход по клику на «Конструктор» и на логотип Stellar Burgers.
  * */
 @RunWith(Parameterized.class)
-public class PersonalAccountTest {
+public class GoToConstructorFromAccountTest {
 
     private static final AtomicReference<String> REGISTERED_NAME = new AtomicReference<>();
     private static final AtomicReference<String> REGISTERED_EMAIL = new AtomicReference<>();
     private static final AtomicReference<String> REGISTERED_PASSWORD = new AtomicReference<>();
 
-    private static HomePom home;
+    private static AccountPom account;
 
-    public PersonalAccountTest(String browser, MutableCapabilities browserOptions) {
+    public GoToConstructorFromAccountTest(String browser, MutableCapabilities browserOptions) {
         SelenideBrowserConfigurator.configure(browser, browserOptions);
     }
 
@@ -78,7 +74,6 @@ public class PersonalAccountTest {
         }
 
         System.out.printf("User for entrance\nname: %s\nemail: %s\npassword: %s\n", REGISTERED_NAME, REGISTERED_EMAIL, REGISTERED_PASSWORD);
-
     }
 
     @Before
@@ -88,7 +83,11 @@ public class PersonalAccountTest {
         loginPom.setEmail(REGISTERED_EMAIL.get());
         loginPom.setPassword(REGISTERED_PASSWORD.get());
 
-        home = loginPom.clickEntranceButton();
+        HomePom home = loginPom.clickEntranceButton();
+
+        HeaderPom header = home.getHeader();
+
+        account = header.clickPersonalAccountAnchor(AccountPom.class);
     }
 
     @After
@@ -97,21 +96,13 @@ public class PersonalAccountTest {
     }
 
     @Test
-    @DisplayName("Переход в личный кабинет")
-    @Description("переход по клику на «Личный кабинет».")
-    public void testLinkToPersonalAccount() {
+    @DisplayName("Переход из личного кабинета в конструктор")
+    @Description("переход по клику на «Конструктор» и на логотип Stellar Burgers.")
+    public void goToConstructorTest() {
+        HeaderPom header = account.getHeader();
 
-        HeaderPom header = home.getHeader();
+        ConstructorPom constructorPom = header.clickConstructorAnchor();
 
-        AccountPom accountPom = header.clickPersonalAccountAnchor(AccountPom.class);
-
-        assertTrue(accountPom.isDisplayed());
-
-        AccountPom.Profile profile = accountPom.clickProfileAnchor();
-
-        assertTrue(profile.isDisplayed());
-
-        assertEquals(REGISTERED_EMAIL.get(), profile.getEmail());
+        Assert.assertEquals("Соберите бургер", constructorPom.getHeading());
     }
-
 }

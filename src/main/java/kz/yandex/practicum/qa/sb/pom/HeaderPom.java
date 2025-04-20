@@ -48,4 +48,16 @@ public class HeaderPom {
         return page;
     }
 
+    public ConstructorPom clickConstructorAnchor() {
+
+        constructorAnchor.click();
+
+        ConstructorPom constructor = Selenide.page(ConstructorPom.class);
+
+        Selenide.Wait().withTimeout(Duration.ofSeconds(5))
+                .until(webDriver -> constructor.isDisplayed());
+
+        return constructor;
+    }
+
 }
