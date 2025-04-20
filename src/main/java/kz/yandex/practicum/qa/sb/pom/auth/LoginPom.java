@@ -6,14 +6,12 @@ import com.codeborne.selenide.SelenideElement;
 import kz.yandex.practicum.qa.sb.pom.HomePom;
 import kz.yandex.practicum.qa.sb.pom.Layout;
 import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 import java.time.Duration;
 
-@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LoginPom extends Layout {
 
@@ -27,10 +25,14 @@ public class LoginPom extends Layout {
     SelenideElement passwordField;
 
     @FindBy(how = How.XPATH, using = "//*[@id=\"root\"]/div/main/div/form/button")
-    SelenideElement enterButton;
+    SelenideElement entranceButton;
 
     @FindBy(how = How.XPATH, using = "//*[@id=\"root\"]/div/main/div/div/p[2]/a")
     SelenideElement resetPasswordAnchor;
+
+    public LoginPom() {
+        super();
+    }
 
     public void setEmail(String email) {
         emailField.setValue(email);
@@ -48,8 +50,8 @@ public class LoginPom extends Layout {
         return passwordField.getValue();
     }
 
-    public HomePom enter() {
-        enterButton.click();
+    public HomePom clickEntranceButton() {
+        entranceButton.click();
 
         HomePom homePom = Selenide.page(HomePom.class);
 
@@ -59,15 +61,15 @@ public class LoginPom extends Layout {
         return homePom;
     }
 
-    public PasswordResetPom resetPassword() {
+    public ResetPasswordPom clickResetPasswordAnchor() {
         resetPasswordAnchor.click();
 
-        PasswordResetPom passwordResetPom = Selenide.page(PasswordResetPom.class);
+        ResetPasswordPom resetPasswordPom = Selenide.page(ResetPasswordPom.class);
 
         Selenide.Wait().withTimeout(Duration.ofSeconds(5))
-                .until(webDriver -> passwordResetPom.isDisplayed());
+                .until(webDriver -> resetPasswordPom.isDisplayed());
 
-        return passwordResetPom;
+        return resetPasswordPom;
     }
 
     public boolean isEmailFieldDisplayed() {
@@ -78,18 +80,19 @@ public class LoginPom extends Layout {
         return Selenide.element(passwordField).shouldBe(Condition.visible).isDisplayed();
     }
 
-    public boolean isEnterButtonDisplayed() {
-        return Selenide.element(enterButton).shouldBe(Condition.visible).isDisplayed();
+    public boolean isEntranceButtonDisplayed() {
+        return Selenide.element(entranceButton).shouldBe(Condition.visible).isDisplayed();
     }
 
-    public boolean isEnterButtonClickable() {
-        return Selenide.element(enterButton).shouldBe(Condition.enabled).isEnabled();
+    public boolean isEntranceButtonClickable() {
+        return Selenide.element(entranceButton).shouldBe(Condition.enabled).isEnabled();
     }
 
     public boolean isDisplayed() {
-        return Selenide.element(enterButton).shouldBe(Condition.visible).isDisplayed() &&
+        return Selenide.element(entranceButton).shouldBe(Condition.visible).isDisplayed() &&
                Selenide.element(emailField).shouldBe(Condition.visible).isDisplayed() &&
-               Selenide.element(passwordField).shouldBe(Condition.visible).isDisplayed();
+               Selenide.element(passwordField).shouldBe(Condition.visible).isDisplayed() &&
+               Selenide.element(pageTitle).shouldBe(Condition.visible).isDisplayed();
     }
 
     public String getPageTitle() {

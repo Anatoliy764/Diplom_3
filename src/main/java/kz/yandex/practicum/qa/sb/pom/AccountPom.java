@@ -1,4 +1,12 @@
 package kz.yandex.practicum.qa.sb.pom;
 
-public class AccountPom extends Layout{
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class AccountPom extends Layout {
+
+    public AccountPom() {
+        super();
+    }
 }

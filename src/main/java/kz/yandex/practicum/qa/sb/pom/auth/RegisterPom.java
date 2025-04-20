@@ -3,7 +3,6 @@ package kz.yandex.practicum.qa.sb.pom.auth;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import kz.yandex.practicum.qa.sb.pom.HeaderPom;
 import kz.yandex.practicum.qa.sb.pom.Layout;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -35,7 +34,7 @@ public class RegisterPom extends Layout {
     SelenideElement entranceAnchor;
 
     public RegisterPom() {
-        this.headerPom = Selenide.page(HeaderPom.class);
+        super();
     }
 
     public void setName(String name) {
@@ -62,7 +61,7 @@ public class RegisterPom extends Layout {
         return passwordField.getValue();
     }
 
-    public LoginPom register() {
+    public LoginPom clickRegisterButton() {
         registerButton.click();
 
         LoginPom loginPom = Selenide.page(LoginPom.class);
@@ -73,7 +72,7 @@ public class RegisterPom extends Layout {
         return loginPom;
     }
 
-    public LoginPom enter() {
+    public LoginPom clickEntranceAnchor() {
         entranceAnchor.click();
 
         LoginPom loginPom = Selenide.page(LoginPom.class);
@@ -116,6 +115,7 @@ public class RegisterPom extends Layout {
         return Selenide.element(registerButton).shouldBe(Condition.visible).isDisplayed() &&
                Selenide.element(emailField).shouldBe(Condition.visible).isDisplayed() &&
                Selenide.element(passwordField).shouldBe(Condition.visible).isDisplayed() &&
+               Selenide.element(pageTitle).shouldBe(Condition.visible).isDisplayed() &&
                Selenide.element(nameField).shouldBe(Condition.visible).isDisplayed();
     }
 

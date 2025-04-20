@@ -1,15 +1,19 @@
 package kz.yandex.practicum.qa.sb.auth;
 
 import com.codeborne.selenide.Selenide;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import kz.yandex.practicum.qa.sb.FakerInstance;
+import kz.yandex.practicum.qa.sb.SelenideBrowserConfigurator;
 import kz.yandex.practicum.qa.sb.pom.auth.LoginPom;
 import kz.yandex.practicum.qa.sb.pom.auth.RegisterPom;
+import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.openqa.selenium.MutableCapabilities;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.BrowserType;
 
 import java.time.Duration;
 
@@ -23,13 +27,21 @@ import static org.junit.Assert.*;
  *  Успешную регистрацию.
  *  Ошибку для некорректного пароля. Минимальный пароль — шесть символов.
  * */
+@RunWith(Parameterized.class)
 public class RegisterTest {
 
     private RegisterPom registerPom;
 
-    @BeforeClass
-    public static void beforeAll() {
-        WebDriverManager.chromedriver().setup();
+    public RegisterTest(String browser, MutableCapabilities browserOptions) {
+        SelenideBrowserConfigurator.configure(browser, browserOptions);
+    }
+
+    @Parameterized.Parameters
+    public static Object[][] data() {
+        return new Object[][] {
+                {BrowserType.CHROME, new ChromeOptions()},
+                {"yandex", new ChromeOptions()}
+        };
     }
 
     @Before
@@ -37,6 +49,11 @@ public class RegisterTest {
         registerPom = Selenide.open("https://stellarburgers.nomoreparties.site/register", RegisterPom.class);
         Selenide.Wait().withTimeout(Duration.ofSeconds(5)).until(obj -> registerPom.isDisplayed());
         assertEquals("Регистрация", registerPom.getPageTitle());
+    }
+
+    @After
+    public void tearDown() {
+        Selenide.closeWebDriver();
     }
 
     @Test
@@ -49,7 +66,7 @@ public class RegisterTest {
 
         assertTrue(registerPom.isRegisterButtonClickable());
 
-        LoginPom loginPom = registerPom.register();
+        LoginPom loginPom = registerPom.clickRegisterButton();
 
         // как проверить, что после регистрации пользователь реально создан и существует?
         // 1. попробовать войти, но это неявный тест входа.
@@ -71,7 +88,7 @@ public class RegisterTest {
 
         assertTrue(registerPom.isRegisterButtonClickable());
 
-        registerPom.register();
+        registerPom.clickRegisterButton();
         assertFalse(registerPom.isPasswordFiledValid());
     }
 }

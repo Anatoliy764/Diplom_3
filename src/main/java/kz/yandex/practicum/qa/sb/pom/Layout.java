@@ -13,4 +13,8 @@ public abstract class Layout {
     public HeaderPom getHeader() {
         return headerPom;
     }
+
+    public boolean isDisplayed() {
+        return headerPom.isDisplayed();
+    }
 }

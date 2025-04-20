@@ -4,6 +4,12 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import kz.yandex.practicum.qa.sb.pom.auth.LoginPom;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import lombok.experimental.FieldDefaults;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
@@ -11,10 +17,15 @@ import java.time.Duration;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class HomePom extends Layout {
 
     @FindBy(how = How.XPATH, using = "//*[@id=\"root\"]/div/main/section[2]/div/button")
     SelenideElement dynamicButton;
+
+    public HomePom() {
+        super();
+    }
 
     public boolean isDisplayed() {
         return Selenide.element(dynamicButton).shouldBe(Condition.visible).isDisplayed() &&
@@ -45,7 +56,7 @@ public class HomePom extends Layout {
         return isDynamicButtonClickable();
     }
 
-    public LoginPom enter() {
+    public LoginPom clickEntranceButton() {
         AtomicReference<LoginPom> loginPom = new AtomicReference<>();
         if(isEntranceButtonDisplayed()) {
             dynamicButton.click();
@@ -59,7 +70,7 @@ public class HomePom extends Layout {
         return loginPom.get();
     }
 
-    public void order() {
+    public void clickOrderButton() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }
