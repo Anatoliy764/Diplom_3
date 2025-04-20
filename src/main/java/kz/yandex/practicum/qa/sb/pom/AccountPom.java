@@ -3,6 +3,7 @@ package kz.yandex.practicum.qa.sb.pom;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import kz.yandex.practicum.qa.sb.pom.auth.LoginPom;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.openqa.selenium.support.FindBy;
@@ -27,8 +28,22 @@ public class AccountPom extends Layout {
         return Selenide.element(profileAnchor).shouldBe(Condition.visible).isDisplayed();
     }
 
+    public boolean isLogoutAnchorDisplayed() {
+        return Selenide.element(logoutAnchor).shouldBe(Condition.visible).isDisplayed();
+    }
+
     public boolean isDisplayed() {
-        return isProfileAnchorDisplayed();
+        return isProfileAnchorDisplayed() && isLogoutAnchorDisplayed();
+    }
+
+    public LoginPom clickLogoutAnchor() {
+        logoutAnchor.click();
+
+        LoginPom loginPom = Selenide.page(LoginPom.class);
+
+        Selenide.Wait().withTimeout(Duration.ofSeconds(5)).until(webDriver -> loginPom.isDisplayed());
+
+        return loginPom;
     }
 
     public Profile clickProfileAnchor() {
