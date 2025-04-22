@@ -9,7 +9,9 @@ import kz.yandex.practicum.qa.sb.pom.ConstructorPom;
 import kz.yandex.practicum.qa.sb.pom.HeaderPom;
 import kz.yandex.practicum.qa.sb.pom.HomePom;
 import kz.yandex.practicum.qa.sb.pom.auth.LoginPom;
-import kz.yandex.practicum.qa.sb.pom.auth.RegisterPom;
+import kz.yandex.practicum.qa.sb.rest.common.ApiException;
+import kz.yandex.practicum.qa.sb.rest.user.User;
+import kz.yandex.practicum.qa.sb.rest.user.UserRestClient;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -17,7 +19,6 @@ import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.BrowserType;
 
-import java.time.Duration;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static kz.yandex.practicum.qa.sb.FakerInstance.FAKER;
@@ -30,9 +31,7 @@ import static kz.yandex.practicum.qa.sb.FakerInstance.FAKER;
 @RunWith(Parameterized.class)
 public class GoToConstructorFromAccountTest {
 
-    private static final AtomicReference<String> REGISTERED_NAME = new AtomicReference<>();
-    private static final AtomicReference<String> REGISTERED_EMAIL = new AtomicReference<>();
-    private static final AtomicReference<String> REGISTERED_PASSWORD = new AtomicReference<>();
+    private static final AtomicReference<User> REGISTERED_USER = new AtomicReference<>();
 
     private static AccountPom account;
 
@@ -48,40 +47,44 @@ public class GoToConstructorFromAccountTest {
         };
     }
 
+    // создаем пользователя для теста аутентификации
     @BeforeClass
-    public static void setup() {
-
-        String registeredEmail = System.getenv("REGISTERED_EMAIL");
-        String registeredPassword = System.getenv("REGISTERED_PASSWORD");
-
-        if((registeredEmail == null || registeredEmail.isBlank()) && (registeredPassword == null || registeredPassword.isBlank())) {
-            // register new user
-            RegisterPom registerPom = Selenide.open("https://stellarburgers.nomoreparties.site/register", RegisterPom.class);
-            Selenide.Wait().withTimeout(Duration.ofSeconds(5)).until(obj -> registerPom.isDisplayed());
-
-            REGISTERED_NAME.set(FAKER.name().username());
-            REGISTERED_EMAIL.set(FAKER.internet().emailAddress());
-            REGISTERED_PASSWORD.set(FAKER.internet().password());
-
-            registerPom.setName(REGISTERED_NAME.get());
-            registerPom.setEmail(REGISTERED_EMAIL.get());
-            registerPom.setPassword(REGISTERED_PASSWORD.get());
-
-            registerPom.clickRegisterButton();
-        } else {
-            REGISTERED_EMAIL.set(registeredEmail);
-            REGISTERED_PASSWORD.set(registeredPassword);
+    public static void setup() throws ApiException {
+        try {
+            REGISTERED_USER.set(UserRestClient.create(new User()
+                    .setName(FAKER.name().username())
+                    .setEmail(FAKER.internet().emailAddress())
+                    .setPassword(FAKER.internet().password())));
+        } catch (ApiException e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+            throw e;
         }
+    }
 
-        System.out.printf("User for entrance\nname: %s\nemail: %s\npassword: %s\n", REGISTERED_NAME, REGISTERED_EMAIL, REGISTERED_PASSWORD);
+    // удаляем пользователя после тестов
+    @AfterClass
+    public static void teardown() throws ApiException {
+        try {
+            UserRestClient.delete(REGISTERED_USER.get());
+            // проверяем что пользователь действительно удален
+            ApiException apiException = Assert.assertThrows(ApiException.class, () -> {
+                UserRestClient.getInfo(REGISTERED_USER.get().getAccessToken());
+            });
+            Assert.assertEquals("User not found", apiException.getMessage());
+        } catch (ApiException e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     @Before
     public void beforeTest() {
         LoginPom loginPom = Selenide.open("https://stellarburgers.nomoreparties.site/login", LoginPom.class);
 
-        loginPom.setEmail(REGISTERED_EMAIL.get());
-        loginPom.setPassword(REGISTERED_PASSWORD.get());
+        loginPom.setEmail(REGISTERED_USER.get().getEmail());
+        loginPom.setPassword(REGISTERED_USER.get().getPassword());
 
         HomePom home = loginPom.clickEntranceButton();
 

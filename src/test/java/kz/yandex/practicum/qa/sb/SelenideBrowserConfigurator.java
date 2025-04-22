@@ -4,6 +4,8 @@ import com.codeborne.selenide.Configuration;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.MutableCapabilities;
 
+import java.util.Objects;
+
 @UtilityClass
 public class SelenideBrowserConfigurator {
 
@@ -17,21 +19,26 @@ public class SelenideBrowserConfigurator {
                                  String binariesPath) {
 
         if(browser != null && !browser.isEmpty()) {
-            if(browser.equalsIgnoreCase("yandex")) {
-                configureYandexBrowser();
-            } else {
-                Configuration.browser = browser;
-                if(binariesPath != null && !binariesPath.isBlank()) {
-                    Configuration.browserBinary = binariesPath;
+            if(!Objects.equals(Configuration.browser, browser)) {
+                if(browser.equalsIgnoreCase("yandex")) {
+                    configureYandexBrowser();
+                } else {
+                    Configuration.browser = browser;
+                    if(binariesPath != null && !binariesPath.isBlank()) {
+                        Configuration.browserBinary = binariesPath;
+                    }
                 }
             }
-            Configuration.browserCapabilities = capabilities;
+            if(!Objects.equals(Configuration.browserCapabilities, capabilities)) {
+                Configuration.browserCapabilities = capabilities;
+            }
         } else {
             throw new IllegalArgumentException("Please provide a browser");
         }
     }
 
     private static void configureYandexBrowser() {
+        System.out.println("Selenide is configured for yandex browser");
         String yandexWebDriverPath = System.getenv("YANDEX_WEB_DRIVER_PATH");
         if(yandexWebDriverPath != null && !yandexWebDriverPath.isBlank()) {
             System.setProperty("webdriver.chrome.driver", yandexWebDriverPath);
