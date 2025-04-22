@@ -2,6 +2,8 @@ package kz.yandex.practicum.qa.sb.constructor;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Description;
+import io.qameta.allure.junit4.DisplayName;
 import kz.yandex.practicum.qa.sb.SelenideBrowserConfigurator;
 import kz.yandex.practicum.qa.sb.pom.ConstructorPom;
 import kz.yandex.practicum.qa.sb.pom.HomePom;
@@ -124,6 +126,8 @@ public class ConstructorTest {
     // т.к. даже если текущая вкладка это "Булки", начинка находится на странице.
     // Поэтому проверяем что ползунок двигается при выборе вкладки.
     @Test
+    @DisplayName("Тест раздела \"Конструктор\"")
+    @Description("проверка работы перехода по вкладкам \"Булки\", \"Соусы\", \"Начинки\" ")
     public void testClickTabs() {
         for (ConstructorPom.Tab tab : TABS) {
             Number initialScrollPos = (Number) jsExecutor.executeScript("return arguments[0].scrollTop;", scrollableDiv);
