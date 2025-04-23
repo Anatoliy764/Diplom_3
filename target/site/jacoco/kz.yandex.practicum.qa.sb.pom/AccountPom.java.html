@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AccountPom.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Diplom_3</a> &gt; <a href="index.source.html" class="el_package">kz.yandex.practicum.qa.sb.pom</a> &gt; <span class="el_source">AccountPom.java</span></div><h1>AccountPom.java</h1><pre class="source lang-java linenums">package kz.yandex.practicum.qa.sb.pom;
+
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
+import kz.yandex.practicum.qa.sb.pom.auth.LoginPom;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
+
+import java.time.Duration;
+
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class AccountPom extends Layout {
+
+    @FindBy(how = How.XPATH, using = &quot;//*[@id=\&quot;root\&quot;]/div/main/div/nav/ul/li[1]/a&quot;)
+    private SelenideElement profileAnchor;
+
+    @FindBy(how = How.XPATH, using = &quot;//*[@id=\&quot;root\&quot;]/div/main/div/nav/ul/li[3]/button&quot;)
+    private SelenideElement logoutAnchor;
+
+    public AccountPom() {
+<span class="fc" id="L24">        super();</span>
+<span class="fc" id="L25">    }</span>
+
+    public boolean isProfileAnchorDisplayed() {
+<span class="fc" id="L28">        return Selenide.element(profileAnchor).shouldBe(Condition.visible).isDisplayed();</span>
+    }
+
+    public boolean isLogoutAnchorDisplayed() {
+<span class="fc" id="L32">        return Selenide.element(logoutAnchor).shouldBe(Condition.visible).isDisplayed();</span>
+    }
+
+    public boolean isDisplayed() {
+<span class="pc bpc" id="L36" title="2 of 4 branches missed.">        return isProfileAnchorDisplayed() &amp;&amp; isLogoutAnchorDisplayed();</span>
+    }
+
+    public LoginPom clickLogoutAnchor() {
+<span class="fc" id="L40">        logoutAnchor.click();</span>
+
+<span class="fc" id="L42">        LoginPom loginPom = Selenide.page(LoginPom.class);</span>
+
+<span class="fc" id="L44">        Selenide.Wait().withTimeout(Duration.ofSeconds(5)).until(webDriver -&gt; loginPom.isDisplayed());</span>
+
+<span class="fc" id="L46">        return loginPom;</span>
+    }
+
+    public Profile clickProfileAnchor() {
+
+<span class="fc" id="L51">        profileAnchor.click();</span>
+
+<span class="fc" id="L53">        Profile profile = Selenide.page(Profile.class);</span>
+
+<span class="fc" id="L55">        Selenide.Wait().withTimeout(Duration.ofSeconds(5)).until(webDriver -&gt; profile.isDisplayed());</span>
+
+<span class="fc" id="L57">        return profile;</span>
+    }
+
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+<span class="fc" id="L61">    public static class Profile {</span>
+        @FindBy(how = How.XPATH, using = &quot;//*[@id=\&quot;root\&quot;]/div/main/div/div/div/ul/li[1]/div/div/input&quot;)
+        SelenideElement nameField;
+
+        @FindBy(how = How.XPATH, using = &quot;//*[@id=\&quot;root\&quot;]/div/main/div/div/div/ul/li[2]/div/div/input&quot;)
+        SelenideElement emailField;
+
+        @FindBy(how = How.XPATH, using = &quot;//*[@id=\&quot;root\&quot;]/div/main/div/div/div/ul/li[3]/div/div/input&quot;)
+        SelenideElement passwordField;
+
+        @FindBy(how = How.XPATH, using = &quot;//*[@id=\&quot;root\&quot;]/div/main/div/div/div/div/button[1]&quot;)
+        SelenideElement cancelButton;
+
+        @FindBy(how = How.XPATH, using = &quot;//*[@id=\&quot;root\&quot;]/div/main/div/div/div/div/button[2]&quot;)
+        SelenideElement saveButton;
+
+        public boolean isNameFieldDisplayed() {
+<span class="fc" id="L78">            return Selenide.element(nameField).shouldBe(Condition.visible).isDisplayed();</span>
+        }
+
+        public boolean isEmailFieldDisplayed() {
+<span class="fc" id="L82">            return Selenide.element(emailField).shouldBe(Condition.visible).isDisplayed();</span>
+        }
+
+        public boolean isPasswordFieldDisplayed() {
+<span class="fc" id="L86">            return Selenide.element(passwordField).shouldBe(Condition.visible).isDisplayed();</span>
+        }
+
+        public boolean isCancelButtonDisplayed() {
+<span class="fc" id="L90">            return Selenide.element(cancelButton).shouldBe(Condition.visible).isDisplayed();</span>
+        }
+
+        public boolean isSaveButtonDisplayed() {
+<span class="fc" id="L94">            return Selenide.element(saveButton).shouldBe(Condition.visible).isDisplayed();</span>
+        }
+
+        public boolean isDisplayed() {
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">            return isNameFieldDisplayed() &amp;&amp;</span>
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">                   isEmailFieldDisplayed() &amp;&amp;</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">                   isPasswordFieldDisplayed() &amp;&amp;</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">                   isCancelButtonDisplayed() &amp;&amp;</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">                   isSaveButtonDisplayed();</span>
+        }
+
+        public void setName(String name) {
+<span class="nc" id="L106">            nameField.setValue(name);</span>
+<span class="nc" id="L107">        }</span>
+
+        public void setEmail(String email) {
+<span class="nc" id="L110">            emailField.setValue(email);</span>
+<span class="nc" id="L111">        }</span>
+
+        public void setPassword(String password) {
+<span class="nc" id="L114">            passwordField.setValue(password);</span>
+<span class="nc" id="L115">        }</span>
+
+        public String getName() {
+<span class="nc" id="L118">            return nameField.getValue();</span>
+        }
+
+        public String getEmail() {
+<span class="fc" id="L122">            return emailField.getValue();</span>
+        }
+
+        public String getPassword() {
+<span class="nc" id="L126">            return passwordField.getValue();</span>
+        }
+
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HeaderPom.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Diplom_3</a> &gt; <a href="index.source.html" class="el_package">kz.yandex.practicum.qa.sb.pom</a> &gt; <span class="el_source">HeaderPom.java</span></div><h1>HeaderPom.java</h1><pre class="source lang-java linenums">package kz.yandex.practicum.qa.sb.pom;
+
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
+import kz.yandex.practicum.qa.sb.pom.auth.LoginPom;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
+
+import java.time.Duration;
+
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class HeaderPom {
+
+    @FindBy(how = How.XPATH, using = &quot;//*[@id=\&quot;root\&quot;]/div/header/nav/ul/li[1]/a&quot;)
+    SelenideElement constructorAnchor;
+
+    @FindBy(how = How.XPATH, using = &quot;//*[@id=\&quot;root\&quot;]/div/header/nav/a&quot;)
+    SelenideElement personalAccountAnchor;
+
+    public HeaderPom() {
+<span class="fc" id="L24">        super();</span>
+<span class="fc" id="L25">    }</span>
+
+    public boolean isConstructorAnchorDisplayed() {
+<span class="nc" id="L28">        return Selenide.element(constructorAnchor).shouldBe(Condition.visible).isDisplayed();</span>
+    }
+
+    public boolean isPersonalAccountAnchorDisplayed() {
+<span class="nc" id="L32">        return Selenide.element(personalAccountAnchor).shouldBe(Condition.visible).isDisplayed();</span>
+    }
+
+    public boolean isDisplayed() {
+<span class="nc bnc" id="L36" title="All 4 branches missed.">        return isConstructorAnchorDisplayed() &amp;&amp; isPersonalAccountAnchorDisplayed();</span>
+    }
+
+    public &lt;T extends Layout&gt; T clickPersonalAccountAnchor(Class&lt;T&gt; clazz) {
+
+<span class="fc" id="L41">        personalAccountAnchor.click();</span>
+
+<span class="fc" id="L43">        T page = Selenide.page(clazz);</span>
+
+<span class="fc" id="L45">        Selenide.Wait().withTimeout(Duration.ofSeconds(5))</span>
+<span class="fc" id="L46">                .until(webDriver -&gt; page.isDisplayed());</span>
+
+<span class="fc" id="L48">        return page;</span>
+    }
+
+    public ConstructorPom clickConstructorAnchor() {
+
+<span class="fc" id="L53">        constructorAnchor.click();</span>
+
+<span class="fc" id="L55">        ConstructorPom constructor = Selenide.page(ConstructorPom.class);</span>
+
+<span class="fc" id="L57">        Selenide.Wait().withTimeout(Duration.ofSeconds(5))</span>
+<span class="fc" id="L58">                .until(webDriver -&gt; constructor.isDisplayed());</span>
+
+<span class="fc" id="L60">        return constructor;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

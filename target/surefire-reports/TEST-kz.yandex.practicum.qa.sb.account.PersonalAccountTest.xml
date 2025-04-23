@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="kz.yandex.practicum.qa.sb.account.PersonalAccountTest" time="13.735" tests="2" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="kz.yandex.practicum.qa.sb.account.PersonalAccountTest" time="13.123" tests="2" errors="0" skipped="0" failures="0">
   <properties>
     <property name="sun.desktop" value="windows"/>
     <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
@@ -18,7 +18,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="RU"/>
     <property name="sun.boot.library.path" value="C:\Users\wongs\.jdks\corretto-11.0.15\bin"/>
-    <property name="sun.java.command" value="C:\Users\wongs\AppData\Local\Temp\surefire11192442377269864465\surefirebooter-20250422212636821_3.jar C:\Users\wongs\AppData\Local\Temp\surefire11192442377269864465 2025-04-22T21-26-36_555-jvmRun1 surefire-20250422212636821_1tmp surefire_0-20250422212636821_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\wongs\AppData\Local\Temp\surefire11718682750745089488\surefirebooter-20250423192009954_3.jar C:\Users\wongs\AppData\Local\Temp\surefire11718682750745089488 2025-04-23T19-20-09_636-jvmRun1 surefire-20250423192009954_1tmp surefire_0-20250423192009954_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="D:\IdeaProjects\yandex-practicum\Diplom\Diplom_3\target\test-classes;D:\IdeaProjects\yandex-practicum\Diplom\Diplom_3\target\classes;C:\Users\wongs\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\wongs\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\wongs\.m2\repository\org\projectlombok\lombok\1.18.4\lombok-1.18.4.jar;C:\Users\wongs\.m2\repository\com\github\javafaker\javafaker\1.0.2\javafaker-1.0.2.jar;C:\Users\wongs\.m2\repository\org\apache\commons\commons-lang3\3.5\commons-lang3-3.5.jar;C:\Users\wongs\.m2\repository\org\yaml\snakeyaml\1.23\snakeyaml-1.23-android.jar;C:\Users\wongs\.m2\repository\com\github\mifmif\generex\1.0.2\generex-1.0.2.jar;C:\Users\wongs\.m2\repository\dk\brics\automaton\automaton\1.11-8\automaton-1.11-8.jar;C:\Users\wongs\.m2\repository\io\qameta\allure\allure-junit4\2.15.0\allure-junit4-2.15.0.jar;C:\Users\wongs\.m2\repository\io\qameta\allure\allure-java-commons\2.15.0\allure-java-commons-2.15.0.jar;C:\Users\wongs\.m2\repository\io\qameta\allure\allure-model\2.15.0\allure-model-2.15.0.jar;C:\Users\wongs\.m2\repository\com\codeborne\selenide\5.25.1\selenide-5.25.1.jar;C:\Users\wongs\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\wongs\.m2\repository\org\seleniumhq\selenium\selenium-java\3.141.59\selenium-java-3.141.59.jar;C:\Users\wongs\.m2\repository\org\seleniumhq\selenium\selenium-api\3.141.59\selenium-api-3.141.59.jar;C:\Users\wongs\.m2\repository\org\seleniumhq\selenium\selenium-chrome-driver\3.141.59\selenium-chrome-driver-3.141.59.jar;C:\Users\wongs\.m2\repository\org\seleniumhq\selenium\selenium-edge-driver\3.141.59\selenium-edge-driver-3.141.59.jar;C:\Users\wongs\.m2\repository\org\seleniumhq\selenium\selenium-firefox-driver\3.141.59\selenium-firefox-driver-3.141.59.jar;C:\Users\wongs\.m2\repository\org\seleniumhq\selenium\selenium-ie-driver\3.141.59\selenium-ie-driver-3.141.59.jar;C:\Users\wongs\.m2\repository\org\seleniumhq\selenium\selenium-opera-driver\3.141.59\selenium-opera-driver-3.141.59.jar;C:\Users\wongs\.m2\repository\org\seleniumhq\selenium\selenium-remote-driver\3.141.59\selenium-remote-driver-3.141.59.jar;C:\Users\wongs\.m2\repository\org\seleniumhq\selenium\selenium-safari-driver\3.141.59\selenium-safari-driver-3.141.59.jar;C:\Users\wongs\.m2\repository\org\seleniumhq\selenium\selenium-support\3.141.59\selenium-support-3.141.59.jar;C:\Users\wongs\.m2\repository\org\apache\commons\commons-exec\1.3\commons-exec-1.3.jar;C:\Users\wongs\.m2\repository\com\squareup\okio\okio\1.14.0\okio-1.14.0.jar;C:\Users\wongs\.m2\repository\com\squareup\okhttp3\okhttp\3.14.9\okhttp-3.14.9.jar;C:\Users\wongs\.m2\repository\commons-lang\commons-lang\2.6\commons-lang-2.6.jar;C:\Users\wongs\.m2\repository\org\apache\commons\commons-compress\1.21\commons-compress-1.21.jar;C:\Users\wongs\.m2\repository\com\google\guava\guava\31.0.1-jre\guava-31.0.1-jre.jar;C:\Users\wongs\.m2\repository\com\google\guava\failureaccess\1.0.1\failureaccess-1.0.1.jar;C:\Users\wongs\.m2\repository\com\google\guava\listenablefuture\9999.0-empty-to-avoid-conflict-with-guava\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:\Users\wongs\.m2\repository\com\google\code\findbugs\jsr305\3.0.2\jsr305-3.0.2.jar;C:\Users\wongs\.m2\repository\org\checkerframework\checker-qual\3.12.0\checker-qual-3.12.0.jar;C:\Users\wongs\.m2\repository\com\google\errorprone\error_prone_annotations\2.7.1\error_prone_annotations-2.7.1.jar;C:\Users\wongs\.m2\repository\com\google\j2objc\j2objc-annotations\1.3\j2objc-annotations-1.3.jar;C:\Users\wongs\.m2\repository\commons-io\commons-io\2.11.0\commons-io-2.11.0.jar;C:\Users\wongs\.m2\repository\org\slf4j\slf4j-api\1.7.32\slf4j-api-1.7.32.jar;C:\Users\wongs\.m2\repository\io\github\bonigarcia\webdrivermanager\5.5.0\webdrivermanager-5.5.0.jar;C:\Users\wongs\.m2\repository\com\google\code\gson\gson\2.10.1\gson-2.10.1.jar;C:\Users\wongs\.m2\repository\com\github\docker-java\docker-java\3.3.3\docker-java-3.3.3.jar;C:\Users\wongs\.m2\repository\com\github\docker-java\docker-java-core\3.3.3\docker-java-core-3.3.3.jar;C:\Users\wongs\.m2\repository\com\github\docker-java\docker-java-api\3.3.3\docker-java-api-3.3.3.jar;C:\Users\wongs\.m2\repository\org\bouncycastle\bcpkix-jdk18on\1.75\bcpkix-jdk18on-1.75.jar;C:\Users\wongs\.m2\repository\org\bouncycastle\bcprov-jdk18on\1.75\bcprov-jdk18on-1.75.jar;C:\Users\wongs\.m2\repository\org\bouncycastle\bcutil-jdk18on\1.75\bcutil-jdk18on-1.75.jar;C:\Users\wongs\.m2\repository\org\slf4j\jcl-over-slf4j\1.7.30\jcl-over-slf4j-1.7.30.jar;C:\Users\wongs\.m2\repository\com\github\docker-java\docker-java-transport-httpclient5\3.3.3\docker-java-transport-httpclient5-3.3.3.jar;C:\Users\wongs\.m2\repository\com\github\docker-java\docker-java-transport\3.3.3\docker-java-transport-3.3.3.jar;C:\Users\wongs\.m2\repository\net\java\dev\jna\jna\5.12.1\jna-5.12.1.jar;C:\Users\wongs\.m2\repository\org\brotli\dec\0.1.2\dec-0.1.2.jar;C:\Users\wongs\.m2\repository\org\apache\httpcomponents\client5\httpclient5\5.2.1\httpclient5-5.2.1.jar;C:\Users\wongs\.m2\repository\org\apache\httpcomponents\core5\httpcore5\5.2\httpcore5-5.2.jar;C:\Users\wongs\.m2\repository\org\apache\httpcomponents\core5\httpcore5-h2\5.2\httpcore5-h2-5.2.jar;C:\Users\wongs\.m2\repository\io\rest-assured\rest-assured\4.4.0\rest-assured-4.4.0.jar;C:\Users\wongs\.m2\repository\org\codehaus\groovy\groovy\3.0.8\groovy-3.0.8.jar;C:\Users\wongs\.m2\repository\org\codehaus\groovy\groovy-xml\3.0.8\groovy-xml-3.0.8.jar;C:\Users\wongs\.m2\repository\org\apache\httpcomponents\httpclient\4.5.13\httpclient-4.5.13.jar;C:\Users\wongs\.m2\repository\org\apache\httpcomponents\httpcore\4.4.13\httpcore-4.4.13.jar;C:\Users\wongs\.m2\repository\commons-logging\commons-logging\1.2\commons-logging-1.2.jar;C:\Users\wongs\.m2\repository\commons-codec\commons-codec\1.11\commons-codec-1.11.jar;C:\Users\wongs\.m2\repository\org\apache\httpcomponents\httpmime\4.5.13\httpmime-4.5.13.jar;C:\Users\wongs\.m2\repository\org\hamcrest\hamcrest\2.1\hamcrest-2.1.jar;C:\Users\wongs\.m2\repository\org\ccil\cowan\tagsoup\tagsoup\1.2.1\tagsoup-1.2.1.jar;C:\Users\wongs\.m2\repository\io\rest-assured\json-path\4.4.0\json-path-4.4.0.jar;C:\Users\wongs\.m2\repository\org\codehaus\groovy\groovy-json\3.0.8\groovy-json-3.0.8.jar;C:\Users\wongs\.m2\repository\io\rest-assured\rest-assured-common\4.4.0\rest-assured-common-4.4.0.jar;C:\Users\wongs\.m2\repository\io\rest-assured\xml-path\4.4.0\xml-path-4.4.0.jar;C:\Users\wongs\.m2\repository\jakarta\xml\bind\jakarta.xml.bind-api\2.3.3\jakarta.xml.bind-api-2.3.3.jar;C:\Users\wongs\.m2\repository\jakarta\activation\jakarta.activation-api\1.2.2\jakarta.activation-api-1.2.2.jar;C:\Users\wongs\.m2\repository\com\sun\xml\bind\jaxb-impl\2.3.3\jaxb-impl-2.3.3.jar;C:\Users\wongs\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.13.5\jackson-databind-2.13.5.jar;C:\Users\wongs\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.13.5\jackson-annotations-2.13.5.jar;C:\Users\wongs\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.13.5\jackson-core-2.13.5.jar;C:\Users\wongs\.m2\repository\com\fasterxml\jackson\datatype\jackson-datatype-jsr310\2.13.5\jackson-datatype-jsr310-2.13.5.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -34,7 +34,7 @@
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
-    <property name="surefire.real.class.path" value="C:\Users\wongs\AppData\Local\Temp\surefire11192442377269864465\surefirebooter-20250422212636821_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\wongs\AppData\Local\Temp\surefire11718682750745089488\surefirebooter-20250423192009954_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="11.0.15+9-LTS"/>
@@ -62,7 +62,7 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="55.0"/>
   </properties>
-  <testcase name="testLinkToPersonalAccount[0]" classname="kz.yandex.practicum.qa.sb.account.PersonalAccountTest" time="6.26">
+  <testcase name="testLinkToPersonalAccount[0]" classname="kz.yandex.practicum.qa.sb.account.PersonalAccountTest" time="5.734">
     <system-out><![CDATA[Request method:	POST
 Request URI:	https://stellarburgers.nomoreparties.site/api/auth/register
 Proxy:			<none>
@@ -76,48 +76,48 @@ Cookies:		<none>
 Multiparts:		<none>
 Body:
 {
-    "email": "татьяна.козлова@yandex.ru",
-    "password": "gmpa4g9pfyg",
-    "name": "варвара.тихонова"
+    "email": "маргарита.беляева@yandex.ru",
+    "password": "4g059tu8vmt3t",
+    "name": "артём.шубина"
 }
 HTTP/1.1 200 OK
 Server: nginx/1.18.0 (Ubuntu)
-Date: Tue, 22 Apr 2025 15:26:56 GMT
+Date: Wed, 23 Apr 2025 13:20:34 GMT
 Content-Type: application/json; charset=utf-8
-Content-Length: 409
+Content-Length: 405
 Connection: keep-alive
 X-Powered-By: Express
 Access-Control-Allow-Origin: *
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MDdiNTQwOWVkMjgwMDAxYjVkMWFiNiIsImlhdCI6MTc0NTMzNTYxNiwiZXhwIjoxNzQ1MzM2ODE2fQ.A6Yot1ZTYyZYXOz1slXB7jRhUyvX0zoBrRY8Gx1NoyQ
-ETag: W/"199-/nSfbg/ljzXHc4IXFDsM/Fex+xM"
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MDhlOTIyOWVkMjgwMDAxYjVkMzBiMiIsImlhdCI6MTc0NTQxNDQzNCwiZXhwIjoxNzQ1NDE1NjM0fQ.Hv7NSlHRrnwjbfU2yoQqau0dEAkMMvavfsxteHzRakA
+ETag: W/"195-XglmsxF2bhJ7OwrE11XFk31aNoA"
 
 {
     "success": true,
     "user": {
-        "email": "татьяна.козлова@yandex.ru",
-        "name": "варвара.тихонова"
+        "email": "маргарита.беляева@yandex.ru",
+        "name": "артём.шубина"
     },
-    "accessToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MDdiNTQwOWVkMjgwMDAxYjVkMWFiNiIsImlhdCI6MTc0NTMzNTYxNiwiZXhwIjoxNzQ1MzM2ODE2fQ.A6Yot1ZTYyZYXOz1slXB7jRhUyvX0zoBrRY8Gx1NoyQ",
-    "refreshToken": "a57c96a60eae6ef9a8d11e5eda57809d957d94817ff8df0b409ba22f51ddc66ec4261e8a05058ff5"
+    "accessToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MDhlOTIyOWVkMjgwMDAxYjVkMzBiMiIsImlhdCI6MTc0NTQxNDQzNCwiZXhwIjoxNzQ1NDE1NjM0fQ.Hv7NSlHRrnwjbfU2yoQqau0dEAkMMvavfsxteHzRakA",
+    "refreshToken": "d63561edb842b00c7ea58da1c18730c08793b9229387cb8ccdad59ce2f8e6bca1254347ade359f84"
 }
 ]]></system-out>
-    <system-err><![CDATA[Starting ChromeDriver 132.0.6834.111 (da730eae256c6ed1cfbd6ba7ceb6c2bf2b181ac7) on port 11338
+    <system-err><![CDATA[Starting ChromeDriver 132.0.6834.111 (da730eae256c6ed1cfbd6ba7ceb6c2bf2b181ac7) on port 22443
 Only local connections are allowed.
 Please see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.
-ChromeDriver was started successfully on port 11338.
-???. 22, 2025 9:26:56 PM org.openqa.selenium.remote.ProtocolHandshake createSession
+ChromeDriver was started successfully on port 22443.
+???. 23, 2025 7:20:34 PM org.openqa.selenium.remote.ProtocolHandshake createSession
 INFO: Detected dialect: W3C
 ]]></system-err>
   </testcase>
-  <testcase name="testLinkToPersonalAccount[1]" classname="kz.yandex.practicum.qa.sb.account.PersonalAccountTest" time="5.971">
+  <testcase name="testLinkToPersonalAccount[1]" classname="kz.yandex.practicum.qa.sb.account.PersonalAccountTest" time="5.94">
     <system-out><![CDATA[Selenide is configured for Yandex browser
 Using default Yandex WebDriver path: D:\IdeaProjects\yandex-practicum\Diplom\Diplom_3\src\test\resources\webDriverBinaries\windows\yandex\25.2.0.2123\yandexdriver.exe
 ]]></system-out>
-    <system-err><![CDATA[Starting ChromeDriver 132.0.6834.111 (da730eae256c6ed1cfbd6ba7ceb6c2bf2b181ac7) on port 56317
+    <system-err><![CDATA[Starting ChromeDriver 132.0.6834.111 (da730eae256c6ed1cfbd6ba7ceb6c2bf2b181ac7) on port 30757
 Only local connections are allowed.
 Please see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.
-ChromeDriver was started successfully on port 56317.
-???. 22, 2025 9:27:03 PM org.openqa.selenium.remote.ProtocolHandshake createSession
+ChromeDriver was started successfully on port 30757.
+???. 23, 2025 7:20:41 PM org.openqa.selenium.remote.ProtocolHandshake createSession
 INFO: Detected dialect: W3C
 ]]></system-err>
   </testcase>

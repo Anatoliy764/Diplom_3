@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ConstructorPom.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Diplom_3</a> &gt; <a href="index.source.html" class="el_package">kz.yandex.practicum.qa.sb.pom</a> &gt; <span class="el_source">ConstructorPom.java</span></div><h1>ConstructorPom.java</h1><pre class="source lang-java linenums">package kz.yandex.practicum.qa.sb.pom;
+
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
+
+import java.util.Arrays;
+
+@Getter
+@FieldDefaults(level = AccessLevel.PRIVATE)
+<span class="fc" id="L18">public class ConstructorPom {</span>
+
+    private static final String BUNS_XPATH = &quot;//*[@id=\&quot;root\&quot;]/div/main/section[1]/div[1]/div[1]&quot;;
+    private static final String SAUCES_XPATH = &quot;//*[@id=\&quot;root\&quot;]/div/main/section[1]/div[1]/div[2]&quot;;
+    private static final String FILLINGS_XPATH = &quot;//*[@id=\&quot;root\&quot;]/div/main/section[1]/div[1]/div[3]&quot;;
+
+    @FindBy(how = How.XPATH, using = &quot;//*[@id=\&quot;root\&quot;]/div/main/section[1]/h1&quot;)
+    SelenideElement heading;
+
+    @FindBy(how = How.XPATH, using = BUNS_XPATH)
+<span class="nc" id="L28">    SelenideElement bunsTab;</span>
+
+    @FindBy(how = How.XPATH, using = SAUCES_XPATH)
+<span class="nc" id="L31">    SelenideElement saucesTab;</span>
+
+    @FindBy(how = How.XPATH, using = FILLINGS_XPATH)
+<span class="nc" id="L34">    SelenideElement fillingsTab;</span>
+
+    public void clickTab(Tab tab) {
+<span class="pc bpc" id="L37" title="1 of 4 branches missed.">        switch (tab) {</span>
+<span class="fc" id="L38">            case BUNS: clickBunsTab(); break;</span>
+<span class="fc" id="L39">            case SAUCES: clickSaucesTab(); break;</span>
+<span class="fc" id="L40">            case FILLINGS: clickFillingsTab(); break;</span>
+        }
+<span class="fc" id="L42">    }</span>
+
+    public void clickBunsTab() {
+<span class="fc" id="L45">        bunsTab.click();</span>
+<span class="fc" id="L46">        Selenide.sleep(1000);</span>
+<span class="fc" id="L47">    }</span>
+
+    public void clickSaucesTab() {
+<span class="fc" id="L50">        saucesTab.click();</span>
+<span class="fc" id="L51">        Selenide.sleep(1000);</span>
+<span class="fc" id="L52">    }</span>
+
+    public void clickFillingsTab() {
+<span class="fc" id="L55">        fillingsTab.click();</span>
+<span class="fc" id="L56">        Selenide.sleep(1000);</span>
+<span class="fc" id="L57">    }</span>
+
+    public Tab getCurrentTab() {
+<span class="fc" id="L60">        return Tab.valueOfLabel(Selenide.$(By.className(&quot;tab_tab_type_current__2BEPc&quot;)).getText());</span>
+    }
+
+    public boolean isDisplayed() {
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">        return isHeadingDisplayed() &amp;&amp;</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">               isBunsTabDisplayed() &amp;&amp;</span>
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">               isSaucesTabDisplayed() &amp;&amp;</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">               isFillingsTabDisplayed();</span>
+    }
+
+    public boolean isHeadingDisplayed() {
+<span class="fc" id="L71">        return Selenide.element(heading).shouldBe(Condition.visible).isDisplayed();</span>
+    }
+
+    public boolean isBunsTabDisplayed() {
+<span class="fc" id="L75">        return Selenide.element(bunsTab).shouldBe(Condition.visible).isDisplayed();</span>
+    }
+
+    public boolean isSaucesTabDisplayed() {
+<span class="fc" id="L79">        return Selenide.element(saucesTab).shouldBe(Condition.visible).isDisplayed();</span>
+    }
+
+    public boolean isFillingsTabDisplayed() {
+<span class="fc" id="L83">        return Selenide.element(fillingsTab).shouldBe(Condition.visible).isDisplayed();</span>
+    }
+
+    public String getHeading() {
+<span class="fc" id="L87">        return heading.getText();</span>
+    }
+
+<span class="fc" id="L90">    @Getter</span>
+<span class="fc" id="L91">    @RequiredArgsConstructor</span>
+    public enum Tab {
+<span class="fc" id="L93">        BUNS(&quot;Булки&quot;),</span>
+<span class="fc" id="L94">        SAUCES(&quot;Соусы&quot;),</span>
+<span class="fc" id="L95">        FILLINGS(&quot;Начинки&quot;);</span>
+
+<span class="fc" id="L97">        private final String label;</span>
+
+        public static Tab valueOfLabel(String label) {
+<span class="fc" id="L100">            return Arrays.stream(values()).filter(t -&gt; t.getLabel().equals(label)).findFirst().orElse(null);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
