@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: kz.yandex.practicum.qa.sb.constructor.ConstructorTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.273 s -- in kz.yandex.practicum.qa.sb.constructor.ConstructorTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.859 s -- in kz.yandex.practicum.qa.sb.constructor.ConstructorTest

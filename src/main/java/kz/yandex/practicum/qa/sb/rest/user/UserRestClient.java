@@ -62,23 +62,6 @@ public final class UserRestClient {
         return userResponse.getUser().setAccessToken(accessToken);
     }
 
-    @Step("Обновление пользователя")
-    public static User update(User user) throws ApiException {
-        if (user == null) {
-            throw new IllegalArgumentException("User is null");
-        }
-
-        Response response = UserRestAssuredUtil.update(user);
-
-        ApiResponseValidator.validate(response, HttpStatus.SC_OK);
-
-        UserResponse userResponse = response.then().extract().as(UserResponse.class);
-
-        userResponse.getUser().setPassword(user.getPassword());
-
-        return userResponse.getUser();
-    }
-
     @Step("delete user")
     public static void delete(User user) throws ApiException {
         if (user == null) {

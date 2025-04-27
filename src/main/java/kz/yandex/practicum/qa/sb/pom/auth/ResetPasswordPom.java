@@ -15,9 +15,6 @@ import java.time.Duration;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ResetPasswordPom extends Layout {
 
-    @FindBy(how = How.XPATH, using = "//h2[text()='Восстановление пароля']")
-    SelenideElement pageTitle;
-
     @FindBy(how = How.XPATH, using = "//label[text()='Email']/following-sibling::input")
     SelenideElement emailField;
 
@@ -43,24 +40,12 @@ public class ResetPasswordPom extends Layout {
         return Selenide.element(emailField).shouldBe(Condition.visible).isDisplayed();
     }
 
-    public String getPageTitle() {
-        return pageTitle.getText();
-    }
-
     public boolean isResetButtonDisplayed() {
         return Selenide.element(resetButton).shouldBe(Condition.visible).isDisplayed();
     }
 
-    public boolean isResetButtonClickable() {
-        return Selenide.element(resetButton).shouldBe(Condition.enabled).isEnabled();
-    }
-
     public boolean isEntranceAnchorDisplayed() {
         return Selenide.element(entranceAnchor).shouldBe(Condition.visible).isDisplayed();
-    }
-
-    public boolean isEntranceAnchorClickable() {
-        return Selenide.element(entranceAnchor).shouldBe(Condition.enabled).isEnabled();
     }
 
     public boolean isDisplayed() {

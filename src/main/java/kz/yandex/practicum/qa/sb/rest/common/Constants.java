@@ -13,7 +13,6 @@ public class Constants {
 
     // API error messages
     public static final String ERROR_MESSAGE_INVALID_CREDENTIALS = "email or password are incorrect";
-    public static final String ERROR_MESSAGE_SHOULD_BE_AUTHORIZED = "You should be authorised";
     public static final String ERROR_MESSAGE_USER_NOT_FOUND = "User not found";
 
 }

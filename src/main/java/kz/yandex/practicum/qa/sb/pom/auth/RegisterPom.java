@@ -86,32 +86,8 @@ public class RegisterPom extends Layout {
         return loginPom;
     }
 
-    public boolean isNameFieldDisplayed() {
-        return Selenide.element(nameField).shouldBe(Condition.visible).isDisplayed();
-    }
-
-    public boolean isEmailFieldDisplayed() {
-        return Selenide.element(emailField).shouldBe(Condition.visible).isDisplayed();
-    }
-
-    public boolean isPasswordFieldDisplayed() {
-        return Selenide.element(passwordField).shouldBe(Condition.visible).isDisplayed();
-    }
-
-    public boolean isRegisterButtonDisplayed() {
-        return Selenide.element(registerButton).shouldBe(Condition.visible).isDisplayed();
-    }
-
     public boolean isRegisterButtonClickable() {
         return Selenide.element(registerButton).shouldBe(Condition.enabled).isEnabled();
-    }
-
-    public boolean isEntranceAnchorDisplayed() {
-        return Selenide.element(entranceAnchor).shouldBe(Condition.visible).isDisplayed();
-    }
-
-    public boolean isEntranceAnchorClickable() {
-        return Selenide.element(entranceAnchor).shouldBe(Condition.enabled).isEnabled();
     }
 
     public boolean isDisplayed() {

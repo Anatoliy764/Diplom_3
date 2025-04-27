@@ -28,9 +28,6 @@ public class LoginPom extends Layout {
     @FindBy(how = How.XPATH, using = "//button[text()='Войти']")
     SelenideElement entranceButton;
 
-    @FindBy(how = How.XPATH, using = "//a[text()='Восстановить пароль']")
-    SelenideElement resetPasswordAnchor;
-
     public LoginPom() {
         super();
     }
@@ -63,43 +60,11 @@ public class LoginPom extends Layout {
         return homePom;
     }
 
-    @Step("Переход на страницу восстановления пароля")
-    public ResetPasswordPom clickResetPasswordAnchor() {
-        resetPasswordAnchor.click();
-
-        ResetPasswordPom resetPasswordPom = Selenide.page(ResetPasswordPom.class);
-
-        Selenide.Wait().withTimeout(Duration.ofSeconds(5))
-                .until(webDriver -> resetPasswordPom.isDisplayed());
-
-        return resetPasswordPom;
-    }
-
-    public boolean isEmailFieldDisplayed() {
-        return Selenide.element(emailField).shouldBe(Condition.visible).isDisplayed();
-    }
-
-    public boolean isPasswordFieldDisplayed() {
-        return Selenide.element(passwordField).shouldBe(Condition.visible).isDisplayed();
-    }
-
-    public boolean isEntranceButtonDisplayed() {
-        return Selenide.element(entranceButton).shouldBe(Condition.visible).isDisplayed();
-    }
-
-    public boolean isEntranceButtonClickable() {
-        return Selenide.element(entranceButton).shouldBe(Condition.enabled).isEnabled();
-    }
-
     public boolean isDisplayed() {
         return Selenide.element(entranceButton).shouldBe(Condition.visible).isDisplayed() &&
                Selenide.element(emailField).shouldBe(Condition.visible).isDisplayed() &&
                Selenide.element(passwordField).shouldBe(Condition.visible).isDisplayed() &&
                Selenide.element(pageTitle).shouldBe(Condition.visible).isDisplayed();
-    }
-
-    public String getPageTitle() {
-        return pageTitle.getText();
     }
 
     @Override
