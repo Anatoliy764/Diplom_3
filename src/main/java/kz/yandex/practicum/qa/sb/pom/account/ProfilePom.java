@@ -10,19 +10,19 @@ import org.openqa.selenium.support.How;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProfilePom {
-    @FindBy(how = How.XPATH, using = "//*[@id=\"root\"]/div/main/div/div/div/ul/li[1]/div/div/input")
+    @FindBy(how = How.XPATH, using = "//label[text()='Имя']/following-sibling::input")
     SelenideElement nameField;
 
-    @FindBy(how = How.XPATH, using = "//*[@id=\"root\"]/div/main/div/div/div/ul/li[2]/div/div/input")
+    @FindBy(how = How.XPATH, using = "//label[text()='Логин']/following-sibling::input")
     SelenideElement emailField;
 
-    @FindBy(how = How.XPATH, using = "//*[@id=\"root\"]/div/main/div/div/div/ul/li[3]/div/div/input")
+    @FindBy(how = How.XPATH, using = "//label[text()='Пароль']/following-sibling::input")
     SelenideElement passwordField;
 
-    @FindBy(how = How.XPATH, using = "//*[@id=\"root\"]/div/main/div/div/div/div/button[1]")
+    @FindBy(how = How.XPATH, using = "//button[text()='Отмена']")
     SelenideElement cancelButton;
 
-    @FindBy(how = How.XPATH, using = "//*[@id=\"root\"]/div/main/div/div/div/div/button[2]")
+    @FindBy(how = How.XPATH, using = "//button[text()='Сохранить']")
     SelenideElement saveButton;
 
     public boolean isNameFieldDisplayed() {

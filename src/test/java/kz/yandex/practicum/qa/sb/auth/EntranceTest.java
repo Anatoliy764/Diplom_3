@@ -61,10 +61,6 @@ public class EntranceTest {
             assertEquals(HttpStatus.SC_NOT_FOUND, e.getStatus());
             assertEquals(Constants.ERROR_MESSAGE_USER_NOT_FOUND, e.getMessage());   
         }
-    }
-
-    @AfterAll
-    public static void tearDown() {
         Selenide.closeWebDriver();
     }
 
