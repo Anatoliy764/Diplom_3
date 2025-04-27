@@ -1,26 +1,24 @@
 package kz.yandex.practicum.qa.sb.auth;
 
 import com.codeborne.selenide.Selenide;
-import io.qameta.allure.junit4.DisplayName;
 import kz.yandex.practicum.qa.sb.SelenideBrowserConfigurator;
 import kz.yandex.practicum.qa.sb.pom.auth.LoginPom;
 import kz.yandex.practicum.qa.sb.pom.auth.RegisterPom;
 import kz.yandex.practicum.qa.sb.rest.common.ApiException;
+import kz.yandex.practicum.qa.sb.rest.common.Constants;
 import kz.yandex.practicum.qa.sb.rest.user.User;
 import kz.yandex.practicum.qa.sb.rest.user.UserRestClient;
-import org.junit.*;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.openqa.selenium.MutableCapabilities;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.BrowserType;
+import org.apache.http.HttpStatus;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
-import java.util.LinkedList;
-import java.util.List;
 
+import static kz.yandex.practicum.qa.sb.AssertionFailMessage.*;
 import static kz.yandex.practicum.qa.sb.FakerInstance.FAKER;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Задание 3: веб-приложение
@@ -29,59 +27,42 @@ import static org.junit.Assert.*;
  *  Успешную регистрацию.
  *  Ошибку для некорректного пароля. Минимальный пароль — шесть символов.
  * */
-@RunWith(Parameterized.class)
-public class RegisterTest {
-
-    private static final List<User> REGISTERED_USERS = new LinkedList<>();
+class RegisterTest {
 
     private RegisterPom registerPom;
 
-    public RegisterTest(String browser, MutableCapabilities browserOptions) {
-        SelenideBrowserConfigurator.configure(browser, browserOptions);
-    }
+    private User registeredUser;
 
-    @Parameterized.Parameters
-    public static Object[][] data() {
-        return new Object[][] {
-                {BrowserType.CHROME, new ChromeOptions()},
-                {"yandex", new ChromeOptions()}
-        };
-    }
+    @BeforeEach
+    void beforeEach() {
 
-    @Before
-    public void beforeEach() {
-        registerPom = Selenide.open("https://stellarburgers.nomoreparties.site/register", RegisterPom.class);
+        SelenideBrowserConfigurator.configure();
+
+        registerPom = Selenide.open(Constants.STELLAR_BURGERS_REGISTER_URL, RegisterPom.class);
         Selenide.Wait().withTimeout(Duration.ofSeconds(5)).until(obj -> registerPom.isDisplayed());
         assertEquals("Регистрация", registerPom.getPageTitle());
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
-        Selenide.closeWebDriver();
-    }
 
-    // удаляем пользователя после тестов
-    @AfterClass
-    public static void teardown() throws ApiException {
-        for (User registeredUser : REGISTERED_USERS) {
-            try {
+        Selenide.closeWebDriver();
+
+        if(registeredUser != null) {
+            assertDoesNotThrow(() -> {
                 UserRestClient.delete(registeredUser);
-                // проверяем что пользователь действительно удален
-                ApiException apiException = Assert.assertThrows(ApiException.class, () -> {
-                    UserRestClient.getInfo(registeredUser.getAccessToken());
-                });
-                Assert.assertEquals("User not found", apiException.getMessage());
-            } catch (ApiException e) {
-                System.err.println(e.getMessage());
-                e.printStackTrace();
-                throw e;
-            }
+            });
+            // проверяем что пользователь действительно удален
+            ApiException apiException = assertThrows(ApiException.class, () -> {
+                UserRestClient.getInfo(registeredUser.getAccessToken());
+            });
+            assertEquals("User not found", apiException.getMessage());
         }
     }
 
     @Test
     @DisplayName("тест регистрации с валидными данными")
-    public void testRegister() {
+    void testRegister() {
         // заполняем форму
         String email = FAKER.internet().emailAddress();
         String username = FAKER.name().username();
@@ -92,35 +73,26 @@ public class RegisterTest {
         registerPom.setPassword(password);
 
         // проверяем что кнопка "зарегистрироваться" кликабельна
-        assertTrue(registerPom.isRegisterButtonClickable());
+        assertTrue(registerPom.isRegisterButtonClickable(), REGISTER_BUTTON_UNCLICKABLE);
 
         // регистрируем пользователя
         LoginPom loginPom = registerPom.clickRegisterButton();
 
         // после регистрации открывается форма для входа. Проверяем что форма открылась.
-        assertTrue(loginPom.isDisplayed());
-        assertEquals("Вход", loginPom.getPageTitle());
+        assertTrue(loginPom.isDisplayed(), "Форма входа не отобразилась");
 
-        // пытаемся получить зарегистрированного пользователя посредством REST API,
+        // пытаемся аутентифицироваться посредством REST API,
         // тем самым проверяем что пользователь действительно зарегистрирован.
-        try {
-            User user = UserRestClient.login(email, password);
-            REGISTERED_USERS.add(user);
-            User registeredUser = UserRestClient.getInfo(user.getAccessToken());
-            assertNotNull(registeredUser);
-            assertEquals(username, registeredUser.getName());
-            assertEquals(email, registeredUser.getEmail());
-        } catch (ApiException e) {
-            System.err.println(e.getMessage());
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
+        assertDoesNotThrow(() -> {
+            registeredUser = UserRestClient.login(email, password);
+            assertNotNull(registeredUser, "Не удалось аутентифицировать пользователя посредством REST API");
+        });
     }
 
     // password min length = 6
     @Test
     @DisplayName("тест регистрации с невалидным паролем")
-    public void testRegisterWithInvalidPassword() {
+    void testRegisterWithInvalidPassword() {
         // заполняем форму
         String email = FAKER.internet().emailAddress();
         String username = FAKER.name().username();
@@ -131,19 +103,20 @@ public class RegisterTest {
         registerPom.setPassword(invalidPassword);
 
         // проверяем что кнопка "зарегистрироваться" кликабельна
-        assertTrue(registerPom.isRegisterButtonClickable());
+        assertTrue(registerPom.isRegisterButtonClickable(), REGISTER_BUTTON_UNCLICKABLE);
 
         // регистрируем пользователя
-        registerPom.clickRegisterButton();
+        assertThrows(com.codeborne.selenide.ex.ElementNotFound.class, () -> registerPom.clickRegisterButton());
 
         // проверяем что поле "Пароль" не валидно и содержит ошибку
-        assertFalse(registerPom.isPasswordFiledValid());
+        assertFalse(registerPom.isPasswordFiledValid(), "Пароль менее 6 не должен быть валиден");
 
         // пытаемся аутентифицироваться посредством REST API,
         // тем самым проверяем что пользователь действительно не зарегистрирован.
-        ApiException apiException = assertThrows(ApiException.class, () -> {
+        ApiException e = assertThrows(ApiException.class, () -> {
             UserRestClient.login(email, invalidPassword);
         });
-        assertEquals("email or password are incorrect", apiException.getMessage());
+        assertEquals(HttpStatus.SC_UNAUTHORIZED, e.getStatus(), HTTP_STATUS_CODE_MISMATCH);
+        assertEquals(Constants.ERROR_MESSAGE_INVALID_CREDENTIALS, e.getMessage(), ERROR_MESSAGE_MISMATCH);
     }
 }

@@ -3,8 +3,9 @@ package kz.yandex.practicum.qa.sb.pom.auth;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import kz.yandex.practicum.qa.sb.pom.HomePom;
-import kz.yandex.practicum.qa.sb.pom.Layout;
+import io.qameta.allure.Step;
+import kz.yandex.practicum.qa.sb.pom.main.HomePom;
+import kz.yandex.practicum.qa.sb.pom.main.Layout;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.openqa.selenium.support.FindBy;
@@ -15,19 +16,19 @@ import java.time.Duration;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LoginPom extends Layout {
 
-    @FindBy(how = How.XPATH, using = "//*[@id=\"root\"]/div/main/div/h2")
+    @FindBy(how = How.XPATH, using = "//h2[text()='Вход']")
     SelenideElement pageTitle;
 
-    @FindBy(how = How.XPATH, using = "//*[@id=\"root\"]/div/main/div/form/fieldset[1]/div/div/input")
+    @FindBy(how = How.XPATH, using = "//label[text()='Email']/following-sibling::input")
     SelenideElement emailField;
 
-    @FindBy(how = How.XPATH, using = "//*[@id=\"root\"]/div/main/div/form/fieldset[2]/div/div/input")
+    @FindBy(how = How.CSS, using = "input.text_type_main-default[name='Пароль']")
     SelenideElement passwordField;
 
-    @FindBy(how = How.XPATH, using = "//*[@id=\"root\"]/div/main/div/form/button")
+    @FindBy(how = How.XPATH, using = "//button[text()='Войти']")
     SelenideElement entranceButton;
 
-    @FindBy(how = How.XPATH, using = "//*[@id=\"root\"]/div/main/div/div/p[2]/a")
+    @FindBy(how = How.XPATH, using = "//a[text()='Восстановить пароль']")
     SelenideElement resetPasswordAnchor;
 
     public LoginPom() {
@@ -50,6 +51,7 @@ public class LoginPom extends Layout {
         return passwordField.getValue();
     }
 
+    @Step("Аутентификация пользователя")
     public HomePom clickEntranceButton() {
         entranceButton.click();
 
@@ -61,6 +63,7 @@ public class LoginPom extends Layout {
         return homePom;
     }
 
+    @Step("Переход на страницу восстановления пароля")
     public ResetPasswordPom clickResetPasswordAnchor() {
         resetPasswordAnchor.click();
 

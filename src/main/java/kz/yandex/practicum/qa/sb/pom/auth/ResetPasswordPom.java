@@ -3,7 +3,8 @@ package kz.yandex.practicum.qa.sb.pom.auth;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import kz.yandex.practicum.qa.sb.pom.Layout;
+import io.qameta.allure.Step;
+import kz.yandex.practicum.qa.sb.pom.main.Layout;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.openqa.selenium.support.FindBy;
@@ -14,24 +15,20 @@ import java.time.Duration;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ResetPasswordPom extends Layout {
 
-    @FindBy(how = How.XPATH, using = "//*[@id=\"root\"]/div/main/div/h2")
+    @FindBy(how = How.XPATH, using = "//h2[text()='Восстановление пароля']")
     SelenideElement pageTitle;
 
-    @FindBy(how = How.XPATH, using = "//*[@id=\"root\"]/div/main/div/form/fieldset/div/div/input")
+    @FindBy(how = How.XPATH, using = "//label[text()='Email']/following-sibling::input")
     SelenideElement emailField;
 
-    @FindBy(how = How.XPATH, using = "//*[@id=\"root\"]/div/main/div/form/button")
+    @FindBy(how = How.XPATH, using = "//button[text()='Восстановить']")
     SelenideElement resetButton;
 
-    @FindBy(how = How.XPATH, using = "//*[@id=\"root\"]/div/main/div/div/p/a")
+    @FindBy(how = How.XPATH, using = "//a[text()='Войти']")
     SelenideElement entranceAnchor;
 
     public ResetPasswordPom() {
         super();
-    }
-
-    public void clickResetButton() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void setEmail(String email) {
@@ -70,7 +67,7 @@ public class ResetPasswordPom extends Layout {
         return isEmailFieldDisplayed() && isResetButtonDisplayed() && isEntranceAnchorDisplayed();
     }
 
-
+    @Step("Аутентификация пользователя")
     public LoginPom clickEntranceAnchor() {
         entranceAnchor.click();
 

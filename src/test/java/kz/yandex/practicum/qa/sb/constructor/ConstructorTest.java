@@ -1,29 +1,30 @@
 package kz.yandex.practicum.qa.sb.constructor;
 
 import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Description;
-import io.qameta.allure.junit4.DisplayName;
 import kz.yandex.practicum.qa.sb.SelenideBrowserConfigurator;
-import kz.yandex.practicum.qa.sb.pom.ConstructorPom;
-import kz.yandex.practicum.qa.sb.pom.HomePom;
+import kz.yandex.practicum.qa.sb.pom.constructor.ConstructorPom;
+import kz.yandex.practicum.qa.sb.pom.constructor.Tab;
+import kz.yandex.practicum.qa.sb.pom.main.HomePom;
 import kz.yandex.practicum.qa.sb.pom.auth.LoginPom;
 import kz.yandex.practicum.qa.sb.rest.common.ApiException;
+import kz.yandex.practicum.qa.sb.rest.common.Constants;
 import kz.yandex.practicum.qa.sb.rest.user.User;
 import kz.yandex.practicum.qa.sb.rest.user.UserRestClient;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.*;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.MutableCapabilities;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.BrowserType;
+import org.apache.http.HttpStatus;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Stream;
 
 import static kz.yandex.practicum.qa.sb.FakerInstance.FAKER;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Задание 3: веб-приложение
@@ -34,89 +35,57 @@ import static kz.yandex.practicum.qa.sb.FakerInstance.FAKER;
  * «Начинки».
  */
 @Slf4j
-@RunWith(Parameterized.class)
 public class ConstructorTest {
-
-    private static final AtomicReference<User> REGISTERED_USER = new AtomicReference<>();
-
-    private static JavascriptExecutor jsExecutor;
 
     private static ConstructorPom constructorPom;
 
-    private static SelenideElement scrollableDiv;
+    private static User registeredUser;
 
-    private final ConstructorPom.Tab[] TABS;
+    @BeforeAll
+    static void beforeAll() {
 
-    public ConstructorTest(String browser, MutableCapabilities browserOptions, ConstructorPom.Tab[] tabs) {
-        SelenideBrowserConfigurator.configure(browser, browserOptions);
-        TABS = tabs;
-    }
+        SelenideBrowserConfigurator.configure();
 
-    @Parameterized.Parameters
-    public static Object[][] data() {
-        ConstructorPom.Tab[] tabs = {ConstructorPom.Tab.FILLINGS, ConstructorPom.Tab.SAUCES, ConstructorPom.Tab.BUNS};
+        assertDoesNotThrow(() -> {
+            registeredUser = UserRestClient.create(new User()
+                    .setName(FAKER.name().username())
+                    .setEmail(FAKER.internet().emailAddress())
+                    .setPassword(FAKER.internet().password()));
+        });
 
-        return new Object[][]{
-                {BrowserType.CHROME, new ChromeOptions().addArguments("--incognito"), tabs},
-                {"yandex", new ChromeOptions().addArguments("--incognito"), tabs}
-        };
-    }
+        LoginPom loginPom = Selenide.open(Constants.STELLAR_BURGERS_LOGIN_URL, LoginPom.class);
 
-    @Before
-    public void beforeParam() {
-
-        System.out.println("before param executed");
-
-        LoginPom loginPom = Selenide.open("https://stellarburgers.nomoreparties.site/login", LoginPom.class);
-
-        loginPom.setEmail(REGISTERED_USER.get().getEmail());
-        loginPom.setPassword(REGISTERED_USER.get().getPassword());
+        loginPom.setEmail(registeredUser.getEmail());
+        loginPom.setPassword(registeredUser.getPassword());
 
         HomePom homePom = loginPom.clickEntranceButton();
 
         constructorPom = homePom.getHeader().clickConstructorAnchor();
-
-        scrollableDiv = Selenide.$(".BurgerIngredients_ingredients__menuContainer__Xu3Mo");
-
-        jsExecutor = (JavascriptExecutor) Selenide.webdriver().object();
-    }
-
-    @After
-    public void after() {
-        Selenide.closeWebDriver();
     }
 
     // создаем пользователя для теста аутентификации
-    @BeforeClass
-    public static void setup() throws ApiException {
-        try {
-            REGISTERED_USER.set(UserRestClient.create(new User()
-                    .setName(FAKER.name().username())
-                    .setEmail(FAKER.internet().emailAddress())
-                    .setPassword(FAKER.internet().password())));
-        } catch (ApiException e) {
-            System.err.println(e.getMessage());
-            e.printStackTrace();
-            throw e;
-        }
+    @AfterAll
+    static void afterAll() {
+        Selenide.closeWebDriver();
 
+        if(registeredUser != null) {
+            assertDoesNotThrow(() -> UserRestClient.delete(registeredUser));
+
+            // проверяем что пользователь действительно удален
+            ApiException e = assertThrows(ApiException.class, () -> {
+                UserRestClient.getInfo(registeredUser.getAccessToken());
+            });
+            assertEquals(HttpStatus.SC_NOT_FOUND, e.getStatus());
+            assertEquals(Constants.ERROR_MESSAGE_USER_NOT_FOUND, e.getMessage());
+        }
     }
 
-    // удаляем пользователя после тестов
-    @AfterClass
-    public static void teardown() throws ApiException {
-        try {
-            UserRestClient.delete(REGISTERED_USER.get());
-            // проверяем что пользователь действительно удален
-            ApiException apiException = Assert.assertThrows(ApiException.class, () -> {
-                UserRestClient.getInfo(REGISTERED_USER.get().getAccessToken());
-            });
-            Assert.assertEquals("User not found", apiException.getMessage());
-        } catch (ApiException e) {
-            System.err.println(e.getMessage());
-            e.printStackTrace();
-            throw e;
-        }
+    private static Stream<Arguments> getTabs() {
+        return Stream.of(
+                Arguments.of(Tab.FILLINGS.getLabel()),
+                Arguments.of(Tab.SAUCES.getLabel()),
+                Arguments.of(Tab.BUNS.getLabel())
+        );
     }
 
     // При клике на вкладку конструктора ползунок меняет свою позицию и отображает соответсвующий контент.
@@ -125,22 +94,23 @@ public class ConstructorTest {
     // Иначе говоря нет смысла проверять отображается ли к примеру начинка Мясо бессмертных моллюсков Protostomia,
     // т.к. даже если текущая вкладка это "Булки", начинка находится на странице.
     // Поэтому проверяем что ползунок двигается при выборе вкладки.
-    @Test
-    @DisplayName("Тест раздела \"Конструктор\"")
+    @ParameterizedTest(name = "Тест раздела \"Конструктор\" переход по вкладке: {0}")
+    @MethodSource("getTabs")
     @Description("проверка работы перехода по вкладкам \"Булки\", \"Соусы\", \"Начинки\" ")
-    public void testClickTabs() {
-        for (ConstructorPom.Tab tab : TABS) {
-            Number initialScrollPos = (Number) jsExecutor.executeScript("return arguments[0].scrollTop;", scrollableDiv);
+    public void testClickTab(String tabLabel) {
 
-            constructorPom.clickTab(tab);
+        Tab tab = Tab.valueOfLabel(tabLabel);
 
-            ConstructorPom.Tab currentTab = constructorPom.getCurrentTab();
+        double initialScrollPos = constructorPom.getScrollPosition();
 
-            Assert.assertTrue(currentTab != null && Objects.equals(tab, currentTab));
+        constructorPom.clickTab(tab);
 
-            Number currentScrollPos = (Number) jsExecutor.executeScript("return arguments[0].scrollTop;", scrollableDiv);
+        Tab currentTab = constructorPom.getCurrentTab();
 
-            Assert.assertNotEquals(initialScrollPos.doubleValue(), currentScrollPos.doubleValue());
-        }
+        assertTrue(currentTab != null && Objects.equals(tab, currentTab));
+
+        double currentScrollPos = constructorPom.getScrollPosition();
+
+        assertNotEquals(initialScrollPos, currentScrollPos);
     }
 }

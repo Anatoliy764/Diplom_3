@@ -3,14 +3,29 @@ package kz.yandex.practicum.qa.sb;
 import com.codeborne.selenide.Configuration;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.MutableCapabilities;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.BrowserType;
+import org.openqa.selenium.safari.SafariOptions;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
 
 @UtilityClass
 public class SelenideBrowserConfigurator {
+
+    private static final String ENV_BROWSER = "BROWSER";
+
+    private static final String ENV_BROWSER_OPTIONS = "BROWSER_OPTIONS";
+
+    public static void configure() {
+        String browser = Optional.ofNullable(System.getenv(ENV_BROWSER)).orElse(BrowserType.CHROME);
+        String[] options = Optional.ofNullable(System.getenv(ENV_BROWSER_OPTIONS)).orElse("--incognito").split("\\s+");
+        configure(browser, createOptions(browser, options));
+    }
 
     public static void configure(String browser,
                                  MutableCapabilities capabilities) {
@@ -94,14 +109,29 @@ public class SelenideBrowserConfigurator {
 
 
 
-//    private static void configureYandexBrowser() {
-//        System.out.println("Selenide is configured for yandex browser");
-//        String yandexWebDriverPath = System.getenv("YANDEX_WEB_DRIVER_PATH");
-//
-//        if(yandexWebDriverPath != null && !yandexWebDriverPath.isBlank()) {
-//            System.setProperty("webdriver.chrome.driver", yandexWebDriverPath);
-//        } else {
-//            throw new RuntimeException("Required environment variable YANDEX_WEB_DRIVER_PATH is not set. Please set absolute path to yandex web driver.");
-//        }
-//    }
+    private static MutableCapabilities createOptions(String browser, String[] options) {
+        if (browser == null) {
+            throw new IllegalArgumentException("browser may not be null");
+        }
+        switch (browser) {
+            case BrowserType.CHROME:
+            case "yandex": {
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.addArguments(options);
+                return chromeOptions;
+            }
+            case BrowserType.FIREFOX: {
+                FirefoxOptions firefoxOptions = new FirefoxOptions();
+                firefoxOptions.addArguments(options);
+                return firefoxOptions;
+            }
+            case BrowserType.SAFARI: {
+                SafariOptions safariOptions = new SafariOptions();
+                safariOptions.setUseTechnologyPreview(true);
+                return safariOptions;
+            }
+            default:
+                return null;
+        }
+    }
 }

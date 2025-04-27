@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: kz.yandex.practicum.qa.sb.account.PersonalAccountTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.12 s -- in kz.yandex.practicum.qa.sb.account.PersonalAccountTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.394 s -- in kz.yandex.practicum.qa.sb.account.PersonalAccountTest
